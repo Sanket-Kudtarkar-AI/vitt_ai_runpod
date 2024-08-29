@@ -7,7 +7,7 @@ from flask import jsonify
 
 async def process_request(job):
     try:
-        query = job['query']
+        query = job['input']['query']
         if not query:
             return {"status": "error", "message": "Query parameter is missing"}
 
