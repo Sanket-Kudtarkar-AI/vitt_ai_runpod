@@ -22,26 +22,26 @@ def get_llm_response():
         return jsonify({"status": "error", "message": f"Error in : get_llm_response\n\n Error details: {str(e)}"}), 500
 
 
-@sockio.on('messagefromclient')
-def stream_llm_response(data):
-    sock_id = None
-    try:
-        sock_id = request.sid
-        query = data.get('query')
-        sessid = data.get('sessionid')
-
-        if not query:
-            emit('messagefromserver', {"status": "error", "message": "Query parameter is missing"}, room=sock_id)
-            return
-
-        function_stream(sock_id, sessid, query, stream=True)
-
-    except Exception as e:
-        error_message = {"status": "error", "message": f"Error in : stream_llm_response\n\n Error details: {str(e)}"}
-        if sock_id:
-            emit('messagefromserver', error_message, room=sock_id)
-        else:
-            emit('messagefromserver', error_message)
+# @sockio.on('messagefromclient')
+# def stream_llm_response(data):
+#     sock_id = None
+#     try:
+#         sock_id = request.sid
+#         query = data.get('query')
+#         sessid = data.get('sessionid')
+#
+#         if not query:
+#             emit('messagefromserver', {"status": "error", "message": "Query parameter is missing"}, room=sock_id)
+#             return
+#
+#         function_stream(sock_id, sessid, query, stream=True)
+#
+#     except Exception as e:
+#         error_message = {"status": "error", "message": f"Error in : stream_llm_response\n\n Error details: {str(e)}"}
+#         if sock_id:
+#             emit('messagefromserver', error_message, room=sock_id)
+#         else:
+#             emit('messagefromserver', error_message)
 
 
 if __name__ == '__main__':
