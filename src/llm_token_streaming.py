@@ -2,6 +2,7 @@ from openai import OpenAI
 
 openai_api_key = "EMPTY"
 openai_api_base = "http://0.0.0.0:5001/v1/"
+openai_api_base = "https://repeatedly-pleasing-narwhal.ngrok-free.app/v1/"
 client = OpenAI(
     api_key=openai_api_key,
     base_url=openai_api_base,

@@ -1,6 +1,5 @@
 """ Example handler file. """
 import runpod
-import asyncio
 from llm_token_streaming import function_stream
 
 from flask import jsonify
