@@ -33,7 +33,6 @@ RUN chmod +x /app/builder/start.sh
 RUN pip install --no-cache-dir -r /app/builder/requirements.txt
 
 # Run the startup script
-RUN ./builder/start.sh
+ENTRYPOINT ["sh", "-c", "/app/builder/start.sh && python3 /src/handler.py"]
 
-CMD ["python3", "/src/handler.py"]
 
