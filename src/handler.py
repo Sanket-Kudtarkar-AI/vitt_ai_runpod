@@ -9,16 +9,19 @@ async def process_request(job):
     try:
         query = job['query']
         if not query:
-            return jsonify({"status": "error", "message": "Query parameter is missing"}), 400
+            return {"status": "error", "message": "Query parameter is missing"}
 
         llm_response = function_stream(prompt=query)
-        return jsonify({"status": "success", "llm_response": llm_response})
+        return {"status": "success", "llm_response": llm_response}
 
     except Exception as e:
-        return jsonify({"status": "error", "message": f"Error in : get_llm_response\n\n Error details: {str(e)}"}), 500
+        print(str(e))
+        return {"status": "error", "message": f"Error in : get_llm_response\n\n Error details: {str(e)}"}
 
 
 # Start the serverless function with the handler and concurrency modifier
 runpod.serverless.start(
     {"handler": process_request}
 )
+
+

@@ -1,3 +1,5 @@
 {
-"query":"Hello my name is Sanket. And I need an essay about India in 20 words"
+  "input": {
+    "query": "Hello my name is Sanket. And I need an essay about India in 20 words"
+  }
 }
