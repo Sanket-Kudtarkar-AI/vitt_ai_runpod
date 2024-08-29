@@ -3,7 +3,9 @@ import runpod
 from llm_token_streaming import function_stream
 
 from flask import jsonify
-
+print(50*"*")
+print("starting handler.py")
+print(50*"*")
 
 async def process_request(job):
     try:
@@ -25,3 +27,4 @@ runpod.serverless.start(
 )
 
 
+# python handler.py --test_input '{"input":{"query": "The quick brown fox jumps"}}'
