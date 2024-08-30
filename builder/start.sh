@@ -13,4 +13,4 @@
 
 
 # Start the handler after the server is confirmed to be running
-python3 /app/src/handler.py
+#python3 /app/src/handler.py

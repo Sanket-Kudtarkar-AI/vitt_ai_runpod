@@ -8,31 +8,35 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     python3 -m pip install --upgrade -r /requirements.txt
 
 
-# Set the working directory in the container
-WORKDIR /app
 
-# Install netcat-openbsd for checking the server status
+
+ECHO "DEBUG: Install netcat-openbsd for checking the server status"
 RUN apt-get update && apt-get install -y netcat-openbsd
 
-# Copy the current directory contents into the container at /app
+
+ECHO "DEBUG: Set the working directory in the container"
+WORKDIR /app
+ECHO "DEBUG: Copy the current directory contents into the container at /app"
 COPY . /app
 
-# Install hf_transfer and huggingface-cli
+
+
 RUN pip install hf_transfer huggingface_hub
 
-# Create a directory for the model files
 
-# Download the model using huggingface-cli with hf_transfer
-RUN mkdir -p /app
+ECHO "DEBUG: Download the model using huggingface-cli with hf_transfer"
 #RUN HF_HUB_ENABLE_HF_TRANSFER=1 huggingface-cli download microsoft/Phi-3.5-mini-instruct --local-dir /app/microsoft/Phi-3.5-mini-instruct --local-dir-use-symlinks False
 
-# Set execute permissions for the startup script
-RUN chmod +x /app/builder/start.sh
+ECHO "DEBUG: Set execute permissions for the startup script"
+RUN #chmod +x /app/builder/start.sh
 
-# Install any needed packages specified in requirements.txt
+# "Install any needed packages specified in requirements.txt"
 RUN pip install --no-cache-dir -r /app/builder/requirements.txt
 
-# Run the startup script
+ECHO "DEBUG: Run the startup script"
+#ENTRYPOINT ["sh", "-c", "/app/builder/start.sh"]
+
 #ENTRYPOINT ["sh", "-c", "/app/builder/start.sh"]
 
 CMD ["python3", "/app/src/handler.py"]
+
