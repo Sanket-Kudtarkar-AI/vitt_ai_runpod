@@ -23,7 +23,7 @@ async def process_request(job):
 
 # Start the serverless function with the handler and concurrency modifier
 runpod.serverless.start(
-    {"handler": process_request}
+    {"handler": process_request, "concurrency_modifier": 100}
 )
 
 
