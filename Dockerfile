@@ -22,7 +22,8 @@ RUN pip install hf_transfer huggingface_hub
 
 
 RUN echo "DEBUG: Download the model using huggingface-cli with hf_transfer"
-#RUN HF_HUB_ENABLE_HF_TRANSFER=1 huggingface-cli download microsoft/Phi-3.5-mini-instruct --local-dir /app/microsoft/Phi-3.5-mini-instruct --local-dir-use-symlinks False
+RUN mkdir "models"
+RUN HF_HUB_ENABLE_HF_TRANSFER=1 huggingface-cli download microsoft/Phi-3.5-mini-instruct --local-dir models/microsoft/Phi-3.5-mini-instruct --local-dir-use-symlinks False
 
 RUN echo "DEBUG: Set execute permissions for the startup script"
 
@@ -34,5 +35,5 @@ RUN echo "DEBUG: Run the startup script"
 ADD src .
 
 RUN chmod +x ./start.sh
+#CMD ["./start.sh"]
 CMD ["./start.sh"]
-
