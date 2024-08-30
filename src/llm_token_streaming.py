@@ -31,5 +31,5 @@ async def function_stream(prompt):
         "stop": ["<|end|>"]
     }
 
-    completion = await client.completions.create(**completion_params)
+    completion = client.completions.create(**completion_params)
     return completion.choices[0].text
