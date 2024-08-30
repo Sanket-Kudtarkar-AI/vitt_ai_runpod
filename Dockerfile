@@ -21,14 +21,16 @@ RUN echo "DEBUG: Download the model using huggingface-cli with hf_transfer"
 #RUN HF_HUB_ENABLE_HF_TRANSFER=1 huggingface-cli download microsoft/Phi-3.5-mini-instruct --local-dir /app/microsoft/Phi-3.5-mini-instruct --local-dir-use-symlinks False
 
 RUN echo "DEBUG: Set execute permissions for the startup script"
-RUN chmod +x builder/start.sh
+
 
 # "Install any needed packages specified in requirements.txt"
 RUN pip install --no-cache-dir -r builder/requirements.txt
 
 RUN echo "DEBUG: Run the startup script"
 #ENTRYPOINT ["sh", "-c", "builder/start.sh"]
+ADD src .
 
-CMD ["python3", "src/handler.py"]
+RUN chmod +x /start.sh
+CMD /start.sh
 
 #ENTRYPOINT ["builder/start.sh"]
