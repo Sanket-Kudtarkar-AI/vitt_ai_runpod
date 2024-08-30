@@ -1,16 +1,16 @@
+import asyncio
 from openai import OpenAI
 
 openai_api_key = "EMPTY"
 openai_api_base = "http://0.0.0.0:5001/v1/"
-# openai_api_base = "https://repeatedly-pleasing-narwhal.ngrok-free.app/v1/"
 client = OpenAI(
     api_key=openai_api_key,
     base_url=openai_api_base,
 )
 
 
-def function_stream(prompt):
-    models = client.models.list()
+async def function_stream(prompt):
+    models = await client.models.list()
     model = models.data[0].id
 
     prompt_template = (
@@ -31,5 +31,5 @@ def function_stream(prompt):
         "stop": ["<|end|>"]
     }
 
-    completion = client.completions.create(**completion_params)
+    completion = await client.completions.create(**completion_params)
     return completion.choices[0].text

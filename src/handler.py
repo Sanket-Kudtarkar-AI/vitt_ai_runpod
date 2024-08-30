@@ -13,7 +13,7 @@ async def process_request(job):
         if not query:
             return {"status": "error", "message": "Query parameter is missing"}
 
-        llm_response = function_stream(prompt=query)
+        llm_response = await function_stream(prompt=query)
         return {"status": "success", "llm_response": llm_response}
 
     except Exception as e:
