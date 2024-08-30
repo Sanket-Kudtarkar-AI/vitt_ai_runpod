@@ -12,6 +12,10 @@ RUN echo "DEBUG: Install netcat-openbsd for checking the server status"
 RUN apt-get update && apt-get install -y netcat-openbsd
 
 
+COPY builder/requirements.txt /requirements.txt
+# "Install any needed packages specified in requirements.txt"
+RUN pip install --no-cache-dir -r /requirements.txt
+
 RUN echo "DEBUG: Set the working directory in the container"
 
 RUN pip install hf_transfer huggingface_hub
@@ -22,9 +26,6 @@ RUN echo "DEBUG: Download the model using huggingface-cli with hf_transfer"
 
 RUN echo "DEBUG: Set execute permissions for the startup script"
 
-
-# "Install any needed packages specified in requirements.txt"
-RUN pip install --no-cache-dir -r .builder/requirements.txt
 
 RUN echo "DEBUG: Run the startup script"
 #ENTRYPOINT ["sh", "-c", "builder/start.sh"]
