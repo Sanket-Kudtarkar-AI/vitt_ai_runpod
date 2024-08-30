@@ -24,7 +24,7 @@ RUN echo "DEBUG: Set execute permissions for the startup script"
 
 
 # "Install any needed packages specified in requirements.txt"
-RUN pip install --no-cache-dir -r builder/requirements.txt
+RUN pip install --no-cache-dir -r /builder/requirements.txt
 
 RUN echo "DEBUG: Run the startup script"
 #ENTRYPOINT ["sh", "-c", "builder/start.sh"]
