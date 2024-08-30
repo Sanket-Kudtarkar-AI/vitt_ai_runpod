@@ -24,7 +24,7 @@ RUN pip install hf_transfer huggingface_hub
 
 # Download the model using huggingface-cli with hf_transfer
 RUN mkdir -p /app
-#RUN HF_HUB_ENABLE_HF_TRANSFER=1 huggingface-cli download microsoft/Phi-3.5-mini-instruct --local-dir /app/microsoft/Phi-3.5-mini-instruct --local-dir-use-symlinks False
+RUN HF_HUB_ENABLE_HF_TRANSFER=1 huggingface-cli download microsoft/Phi-3.5-mini-instruct --local-dir /app/microsoft/Phi-3.5-mini-instruct --local-dir-use-symlinks False
 
 # Set execute permissions for the startup script
 RUN chmod +x /app/builder/start.sh
@@ -33,6 +33,5 @@ RUN chmod +x /app/builder/start.sh
 RUN pip install --no-cache-dir -r /app/builder/requirements.txt
 
 # Run the startup script
-ENTRYPOINT ["sh", "-c", "/app/builder/start.sh && python3 app/src/handler.py"]
-
+ENTRYPOINT ["sh", "-c", "/app/builder/start.sh"]
 
