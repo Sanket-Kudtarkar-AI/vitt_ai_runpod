@@ -13,10 +13,6 @@ RUN apt-get update && apt-get install -y netcat-openbsd
 
 
 RUN echo "DEBUG: Set the working directory in the container"
-WORKDIR /app
-COPY . /app
-
-
 
 RUN pip install hf_transfer huggingface_hub
 
@@ -25,15 +21,14 @@ RUN echo "DEBUG: Download the model using huggingface-cli with hf_transfer"
 #RUN HF_HUB_ENABLE_HF_TRANSFER=1 huggingface-cli download microsoft/Phi-3.5-mini-instruct --local-dir /app/microsoft/Phi-3.5-mini-instruct --local-dir-use-symlinks False
 
 RUN echo "DEBUG: Set execute permissions for the startup script"
-RUN #chmod +x /app/builder/start.sh
+RUN chmod +x builder/start.sh
 
 # "Install any needed packages specified in requirements.txt"
-RUN pip install --no-cache-dir -r /app/builder/requirements.txt
+RUN pip install --no-cache-dir -r builder/requirements.txt
 
 RUN echo "DEBUG: Run the startup script"
-#ENTRYPOINT ["sh", "-c", "/app/builder/start.sh"]
+#ENTRYPOINT ["sh", "-c", "builder/start.sh"]
 
-#ENTRYPOINT ["sh", "-c", "/app/builder/start.sh"]
+CMD ["python3", "src/handler.py"]
 
-CMD ["python3", "/app/src/handler.py"]
-
+#ENTRYPOINT ["builder/start.sh"]
