@@ -33,6 +33,6 @@ RUN echo "DEBUG: Run the startup script"
 
 ADD src .
 
-RUN chmod +x /start.sh
-CMD ["/start.sh"]
+RUN chmod +x .start.sh
+CMD [".start.sh"]
 
