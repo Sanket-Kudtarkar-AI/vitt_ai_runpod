@@ -29,9 +29,10 @@ RUN echo "DEBUG: Set execute permissions for the startup script"
 
 RUN echo "DEBUG: Run the startup script"
 #ENTRYPOINT ["sh", "-c", "builder/start.sh"]
+#ENTRYPOINT ["builder/start.sh"]
+
 ADD src .
 
 RUN chmod +x /start.sh
-CMD /start.sh
+CMD ["/start.sh"]
 
-#ENTRYPOINT ["builder/start.sh"]
