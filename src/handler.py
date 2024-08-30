@@ -3,9 +3,11 @@ import runpod
 from llm_token_streaming import function_stream
 
 from flask import jsonify
-print(50*"*")
+
+print(50 * "*")
 print("starting handler.py")
-print(50*"*")
+print(50 * "*")
+
 
 async def process_request(job):
     try:
@@ -23,8 +25,7 @@ async def process_request(job):
 
 # Start the serverless function with the handler and concurrency modifier
 runpod.serverless.start(
-    {"handler": process_request, "concurrency_modifier": 100}
+    {"handler": process_request, "concurrency_modifier": lambda x: 100}
 )
-
 
 # python handler.py --test_input '{"input":{"query": "The quick brown fox jumps"}}'
