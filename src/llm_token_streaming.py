@@ -10,7 +10,7 @@ client = OpenAI(
 
 
 async def function_stream(prompt):
-    models = await client.models.list()
+    models = client.models.list()
     model = models.data[0].id
 
     prompt_template = (
