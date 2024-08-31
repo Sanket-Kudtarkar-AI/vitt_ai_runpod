@@ -6,7 +6,7 @@ print("starting handler.py v2 with async improvements")
 print(50 * "*")
 
 
-vllm_server = "https://0.0.0.0:5001/v1/completions"
+vllm_server = "http://0.0.0.0:5001/v1/completions"
 
 
 async def process_request(job):
