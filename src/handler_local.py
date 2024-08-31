@@ -1,18 +1,14 @@
-""" Example handler file. """
 import runpod
-# from llm_token_streaming import function_stream
-from openai import OpenAI
-from flask import jsonify
+import aiohttp
+import asyncio
+
 
 print(50 * "*")
-print("starting handler.py v2")
+print("starting handler.py v2 with async improvements")
 print(50 * "*")
-openai_api_key = "EMPTY"
-vllm_server = "https://llm1.a.pinggy.link/v1/"
-client = OpenAI(
-    api_key=openai_api_key,
-    base_url=vllm_server,
-)
+
+
+vllm_server = "https://testvt.a.pinggy.link/v1/completions"
 
 
 async def process_request(job):
@@ -41,19 +37,19 @@ async def process_request(job):
             "stop": ["<|end|>"]
         }
 
-        completion = client.completions.create(**completion_params)
-        llm_response = completion.choices[0].text
-        # llm_response = await function_stream(prompt=query)
-        return {"status": "success", "llm_response": llm_response}
+        async with aiohttp.ClientSession() as session:
+            async with session.post(vllm_server, json=completion_params) as response:
+                response_data = await response.json()
+                print(f"response_data : {response_data}")
+                llm_response = response_data["choices"][0]['text']
+
+                return {"status": "success", "llm_response": llm_response}
 
     except Exception as e:
         print(str(e))
         return {"status": "error", "message": f"Error in : get_llm_response\n\n Error details: {str(e)}"}
 
-
 # Start the serverless function with the handler and concurrency modifier
 runpod.serverless.start(
     {"handler": process_request, "concurrency_modifier": lambda x: 10}
 )
-
-# python handler.py --test_input '{"input":{"query": "The quick brown fox jumps"}}'

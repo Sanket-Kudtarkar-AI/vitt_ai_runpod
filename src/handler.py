@@ -1,17 +1,12 @@
-""" Example handler file. """
 import runpod
-from openai import OpenAI
+import aiohttp
 
 print(50 * "*")
-print("starting handler.py v2")
+print("starting handler.py v2 with async improvements")
 print(50 * "*")
-openai_api_key = "EMPTY"
-vllm_server = "http://0.0.0.0:5001/v1/"
 
-client = OpenAI(
-    api_key=openai_api_key,
-    base_url=vllm_server,
-)
+
+vllm_server = "https://0.0.0.0:5001/v1/completions"
 
 
 async def process_request(job):
@@ -20,9 +15,6 @@ async def process_request(job):
 
         if not query:
             return {"status": "error", "message": "Query parameter is missing"}
-
-        # models = client.models.list()
-        # model = models.data[0].id
 
         prompt_template = (
             "<|system|>\n"
@@ -34,7 +26,7 @@ async def process_request(job):
         formatted_prompt = prompt_template.format(query=query)
 
         completion_params = {
-            "model": "/models/microsoft/Phi-3.5-mini-instruct",
+            "model": "models/microsoft/Phi-3.5-mini-instruct",
             "prompt": formatted_prompt,
             "echo": False,
             "stream": False,
@@ -43,15 +35,17 @@ async def process_request(job):
             "stop": ["<|end|>"]
         }
 
-        completion = client.completions.create(**completion_params)
-        llm_response = completion.choices[0].text
-        # llm_response = await function_stream(prompt=query)
-        return {"status": "success", "llm_response": llm_response}
+        async with aiohttp.ClientSession() as session:
+            async with session.post(vllm_server, json=completion_params) as response:
+                response_data = await response.json()
+                print(f"response_data : {response_data}")
+                llm_response = response_data["choices"][0]['text']
+
+                return {"status": "success", "llm_response": llm_response}
 
     except Exception as e:
         print(str(e))
         return {"status": "error", "message": f"Error in : get_llm_response\n\n Error details: {str(e)}"}
-
 
 # Start the serverless function with the handler and concurrency modifier
 runpod.serverless.start(
