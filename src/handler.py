@@ -26,7 +26,7 @@ async def process_request(job):
         formatted_prompt = prompt_template.format(query=query)
 
         completion_params = {
-            "model": "models/microsoft/Phi-3.5-mini-instruct",
+            "model": "/models/microsoft/Phi-3.5-mini-instruct",
             "prompt": formatted_prompt,
             "echo": False,
             "stream": False,
